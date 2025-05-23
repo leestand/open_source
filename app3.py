@@ -6,7 +6,7 @@ from supabase import create_client
 from openai import OpenAI
 
 # 페이지 구성
-st.set_page_config(page_title="안성탕면 시맨틱 검색", layout="wide")
+st.set_page_config(page_title="건축자재 시맨틱 검색", layout="wide")
 
 # Streamlit에서 실행 중인지 확인하고 secrets 가져오기
 try:
@@ -50,70 +50,7 @@ except Exception as e:
 def generate_embedding(text):
     """텍스트에서 OpenAI 임베딩 생성"""
     try:
-        response = openai_client.embeddings.create(
-            input=text,
-            model="text-embedding-3-small"
-        )
-        return response.data[0].embedding
-    except Exception as e:
-        st.error(f"임베딩 생성 중 오류 발생: {str(e)}")
-        raise
-
-def semantic_search(query_text, limit=10, match_threshold=0.5):
-    """시맨틱 검색 수행"""
-    try:
-        # 쿼리 텍스트에 대한 임베딩 생성
-        query_embedding = generate_embedding(query_text)
-        
-        # RPC를 통한 벡터 검색 (Supabase에 match_documents RPC 함수가 있는 경우)
-        try:
-            response = supabase.rpc(
-                'match_documents', 
-                {
-                    'query_embedding': query_embedding,
-                    'match_threshold': match_threshold,
-                    'match_count': limit
-                }
-            ).execute()
-            
-            if response.data and len(response.data) > 0:
-                st.sidebar.success("RPC 검색 성공!")
-                return response.data
-        except Exception as e:
-            st.sidebar.warning(f"RPC 검색 실패, 대체 방법으로 검색합니다: {str(e)}")
-        
-        # 백업 방법: 모든 문서를 가져와서 클라이언트 측에서 유사도 계산
-        st.sidebar.info("데이터베이스에서 문서를 가져오는 중...")
-        result = supabase.table('documents').select('id, content, metadata, embedding').execute()
-        
-        st.sidebar.info(f"총 {len(result.data)}개의 문서에서 유사도 계산 중...")
-        results = []
-        for item in result.data:
-            if 'embedding' in item and item['embedding'] is not None:
-                # 코사인 유사도 계산
-                item_embedding = item['embedding']
-                similarity = np.dot(query_embedding, item_embedding) / (
-                    np.linalg.norm(query_embedding) * np.linalg.norm(item_embedding)
-                )
-                
-                if similarity > match_threshold:
-                    results.append({
-                        'id': item['id'],
-                        'content': item['content'],
-                        'metadata': item['metadata'],
-                        'similarity': float(similarity)
-                    })
-        
-        # 유사도 기준으로 정렬하고 상위 결과 반환
-        results = sorted(results, key=lambda x: x['similarity'], reverse=True)[:limit]
-        return results
-        
-    except Exception as e:
-        st.error(f"시맨틱 검색 중 오류 발생: {str(e)}")
-        raise
-
-# 메인 UI
-st.title("안성탕면 블로그 시맨틱 검색")
+        response =재 블로그 시맨틱 검색")
 st.write("Supabase 벡터 데이터베이스에 저장된 안성탕면 관련 블로그 데이터를 시맨틱 검색합니다.")
 
 # 검색 설정 UI
