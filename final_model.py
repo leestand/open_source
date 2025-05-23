@@ -620,7 +620,7 @@ samsung_laptop_questions = [
 ]
 default_queries_map = {
     "쇼핑": samsung_laptop_questions[0], # 쇼핑 탭 기본 질문
-    "블로그": "건축 자재 요즘 뜨는 제품품이 뭐지?",
+    "블로그": "건축 자재 요즘 뜨는 제품이 뭐지?",
     "뉴스": "최근 경제 이슈는 무엇인가요?"
 }
 
