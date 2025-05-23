@@ -50,14 +50,14 @@ except Exception as e:
 def generate_embedding(text):
     """텍스트에서 OpenAI 임베딩 생성"""
     try:
-        response =재 블로그 시맨틱 검색")
-st.write("Supabase 벡터 데이터베이스에 저장된 안성탕면 관련 블로그 데이터를 시맨틱 검색합니다.")
+        response =건축자재 블로그 시맨틱 검색")
+st.write("Supabase 벡터 데이터베이스에 저장된 건축자재 관련 블로그 데이터를 시맨틱 검색합니다.")
 
 # 검색 설정 UI
 st.sidebar.title("검색 설정")
 
 # 검색 입력
-query = st.text_input("검색어 입력", value="안성탕면", help="검색할 키워드나 문장을 입력하세요")
+query = st.text_input("검색어 입력", value="건축자재", help="검색할 키워드나 문장을 입력하세요")
 
 col1, col2 = st.columns(2)
 with col1:
